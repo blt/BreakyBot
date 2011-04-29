@@ -1,16 +1,9 @@
-basakkaly - An Akka/Scala sbt quickstart project.
+BreakyBot - A broken break dancing robot.
 ===============
 
-I find myself starting several, small Akka projects per week. Each has a
-non-trivial amount of configuration involved. This project, like Gnu's
-[Hello](http://www.gnu.org/software/hello/) is meant to remove the need for
-such repeated work.
-
-Features:
-
-  * Latest Akka 1.1-M1,
-  * quick deployment with [sbt-akka-bivy](https://github.com/bwmcadams/sbt-akka-bivy)
-  * and a permissive license.
+This project is silly and serves only to demonstrate an issue with Akka
+exception reporting in the supervision heirarchy boot sequence. However,
+patches _are_ welcome to make this poor robot actually break dance.
 
 Getting Started
 ---------------

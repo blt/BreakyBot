@@ -3,7 +3,7 @@ import sbt._
 class Project(info: ProjectInfo) extends DefaultProject(info) with AkkaProject with sbt_akka_bivy.AkkaKernelDeployment {
   // Compiler and distribution specific options
   override def compileOptions = super.compileOptions ++ Seq(Unchecked)
-  override val artifactID = "basakkaly"
+  override val artifactID = "breakybot"
 
   // Project dependencies
   val akkaModuleConfig = ModuleConfiguration("se.scalablesolutions.akka", AkkaRepositories.Akka_Repository)
