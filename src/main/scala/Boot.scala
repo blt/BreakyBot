@@ -8,5 +8,10 @@ class Boot {
   val strategy = OneForOneStrategy(List(classOf[Exception]), 3, 1000)
   val supervisor = Supervisor(SupervisorConfig(strategy, Nil))
 
-  supervisor.link(actorOf[BreakyBot].start)
+  val permission = actorOf[entity.PermissionBot].start
+  val diary = actorOf[entity.Diary].start
+
+  supervisor.link(permission)
+  supervisor.link(diary)
+  supervisor.link(actorOf(new entity.BreakyBot(permission, diary)).start)
 }
