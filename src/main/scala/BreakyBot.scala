@@ -50,7 +50,7 @@ package entity {
         stay using state
     }
 
-    when(MuchDance, stateTimeout = 10 millis) {
+    when(MuchDance, stateTimeout = 1 second) {
       case Event(StateTimeout, Some(partner)) =>
         diary ! "Dancing with %s was fun!".format(partner)
         goto(LosePartner) using Some(partner)

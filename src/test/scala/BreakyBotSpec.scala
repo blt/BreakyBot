@@ -34,24 +34,21 @@ class BreakyBotSpec extends Spec with BeforeAndAfterAll with BeforeAndAfterEach 
     it("should brag to its diary when it can dance with a new partner") {
       machine ! "Oscar Wilde"
       nanny.expectMsg(50 millis) {
-        // case permission.Request => nanny.testActor.reply( permission.Granted )
-        case permission.Request => machine ! permission.Granted
+        case permission.Request => machine.!(permission.Granted)(Some(nanny.testActor))
         case _ => fail
       }
-      diary.expectMsg(1 millis, "Oscar Wilde wants to break dance with me!")
-      diary.expectNoMsg(5 millis)
+      diary.expectMsg(500 millis, "Oscar Wilde wants to break dance with me!")
+      diary.expectNoMsg(40 millis)
     }
     it("should eventually lose its partner to the ravages of time") {
       machine ! "Roger B. Myerson"
       nanny.expectMsg(50 millis) {
-        // case permission.Request => nanny.testActor.reply( permission.Granted )
-        case permission.Request => machine ! permission.Granted
+        case permission.Request => machine.!(permission.Granted)(Some(nanny.testActor))
         case _ => fail
       }
       diary.expectMsg(5 millis, "Roger B. Myerson wants to break dance with me!")
-      diary.expectMsg(15 millis, "Dancing with Roger B. Myerson was fun!")
+      diary.expectMsg(2 second, "Dancing with Roger B. Myerson was fun!")
       diary.expectNoMsg(50 millis)
     }
   }
-
 }

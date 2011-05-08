@@ -9,37 +9,6 @@ import java.util.concurrent.{BlockingDeque, LinkedBlockingDeque, TimeUnit}
 
 import scala.annotation.tailrec
 
-private object TestActor {
-  type Ignore = Option[PartialFunction[AnyRef, Boolean]]
-
-  case class SetTimeout(d : Duration)
-  case class SetIgnore(i : Ignore)
-}
-
-private class TestActor(queue : BlockingDeque[AnyRef]) extends Actor with FSM[Int, TestActor.Ignore] {
-  import FSM._
-  import TestActor._
-
-  self.dispatcher = CallingThreadDispatcher.global
-
-  startWith(0, None)
-  when(0, stateTimeout = 5 seconds) {
-    case Ev(SetTimeout(d)) =>
-      setStateTimeout(0, if (d.finite_?) d else None)
-      stay
-    case Ev(SetIgnore(ign)) => stay using ign
-    case Ev(StateTimeout) =>
-      stop
-    case Event(x : AnyRef, ign) =>
-      val ignore = ign map (z => if (z isDefinedAt x) z(x) else false) getOrElse false
-      if (!ignore) {
-        queue.offerLast(x)
-      }
-      stay
-  }
-  initialize
-}
-
 /**
  * Test kit for testing actors. Inheriting from this trait enables reception of
  * replies from actors, which are queued by an internal actor and can be
@@ -81,6 +50,10 @@ class TestParts {
    */
   val testActor = actorOf(new TestActor(queue)).start()
 
+  def reply_?(message: Any): Boolean = {
+    println(testActor)
+    false
+  }
   /**
    * Implicit sender reference so that replies are possible for messages sent
    * from the test class.
